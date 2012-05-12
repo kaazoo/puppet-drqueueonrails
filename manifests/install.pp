@@ -5,11 +5,19 @@ class drqueueonrails::install {
     creates => "/home/drqueueonrails/DrQueueOnRails",
     path    => ["/bin", "/usr/bin", "/usr/sbin"],
     require => Package["git-core"],
+    notify  => Exec["bundle-install"],
+  }
+
+  # install gems
+  exec { "su -c \"bundle install\" drqueueonrails":
+    cwd         => "/home/drqueueonrails/DrQueueOnRails",
+    path        => ["/bin", "/usr/bin", "/usr/sbin"],
+    refreshonly => true,
+    alias       => "bundle-install",
   }
 
   # TODO:
   # notify about manual configuration steps
-  # cd /home/drqueueonrails/DrQueueOnRails
-  # bundle install
+
 
 }
