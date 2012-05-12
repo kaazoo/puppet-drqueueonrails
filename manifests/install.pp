@@ -9,6 +9,7 @@ class drqueueonrails::install {
 
   # TODO:
   # notify about manual configuration steps
-
+  # cd /home/drqueueonrails/DrQueueOnRails
+  # bundle install
 
 }

@@ -1,8 +1,6 @@
 class drqueueonrails::config {
 
-  package { "git-core":
-    ensure => present,
-  }
+  include ipython
 
   group { "drqueueonrails":
     ensure => "present",
