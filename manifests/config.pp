@@ -3,17 +3,6 @@ class drqueueonrails::config {
   include ipython
   include rvm
 
-  rvm_system_ruby { "ruby-1.8.7-p358":
-    ensure => present,
-    default_use => true,
-  }
-
-  rvm_gem { "bundler":
-    ruby_version => "ruby-1.8.7-p358",
-    ensure => latest,
-    require => Rvm_system_ruby["ruby-1.8.7-p358"],
-  }
-
   group { "drqueueonrails":
     ensure => "present",
   }
