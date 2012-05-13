@@ -31,6 +31,11 @@ class drqueueonrails::install {
     subscribe => File["/etc/apache2/mods-available/passenger.conf"],
   }
 
+  # dependency packages
+  package { ["libapache2-mod-xsendfile", "libmagick++-dev"]:
+    ensure => present,
+  }
+
   # clone from git repository
   exec { "su -c \"git clone -b ${drqueueonrails::git_branch} git://github.com/kaazoo/DrQueueOnRails.git /home/drqueueonrails/DrQueueOnRails\" drqueueonrails":
     creates => "/home/drqueueonrails/DrQueueOnRails",
@@ -39,12 +44,13 @@ class drqueueonrails::install {
     notify  => Exec["bundle-install"],
   }
 
-  # install gems
-  exec { "su -c \"bundle install\" drqueueonrails":
+  # install gems in RVM environment
+  exec { "su -c \"source /etc/profile && bundle install\" drqueueonrails":
     cwd         => "/home/drqueueonrails/DrQueueOnRails",
     path        => ["/bin", "/usr/bin", "/usr/sbin"],
     refreshonly => true,
     alias       => "bundle-install",
+    require     => Package["libmagick++-dev"]
   }
 
   # TODO:
